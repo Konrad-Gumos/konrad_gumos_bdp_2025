@@ -1,0 +1,1 @@
+SELECT ST_Length(geometry) FROM roads;
