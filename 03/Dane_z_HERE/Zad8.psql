@@ -1,0 +1,14 @@
+CREATE TABLE T2019_KAR_BRIDGES AS
+SELECT
+    r.link_id AS railway_id,
+    w.link_id AS water_id,
+
+    ST_Intersection(r.geom, w.geom) AS geom
+FROM
+    t2019_kar_railways AS r
+JOIN
+    t2019_kar_water_lines AS w
+ON
+    ST_Intersects(r.geom, w.geom)
+WHERE
+    ST_GeometryType(ST_Intersection(r.geom, w.geom)) IN ('ST_Point', 'ST_MultiPoint');

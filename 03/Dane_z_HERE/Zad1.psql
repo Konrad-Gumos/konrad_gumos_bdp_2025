@@ -1,0 +1,8 @@
+CREATE TABLE new_buildings AS
+SELECT t19.*
+FROM t2019_kar_buildings AS t19
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM t2018_kar_buildings AS t18
+    WHERE ST_Equals(t19.geom, t18.geom)
+)

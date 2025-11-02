@@ -1,0 +1,16 @@
+WITH new_pois AS (
+    SELECT p19.*
+    FROM t2019_kar_poi_table AS p19
+    WHERE NOT EXISTS (
+        SELECT 1
+        FROM t2018_kar_poi_table AS p18
+        WHERE ST_Equals(p19.geom, p18.geom)
+    )
+)
+
+SELECT
+    COUNT(DISTINCT p.poi_id) AS liczba_nowych_poi
+FROM new_pois AS p
+JOIN new_buildings AS b
+    ON ST_DWithin(p.geom::geography, b.geom::geography, 500)
+ORDER BY liczba_nowych_poi DESC;
